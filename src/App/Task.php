@@ -15,14 +15,14 @@ class Task
     public const CHANNELS = [self::CUSTOMER, self::USER];
 
 
-    public function __construct($assets = self::ASSETS_PATH)
+    public function __construct(string $assets = self::ASSETS_PATH)
     {
         $this->customerData = file_get_contents($assets . '/' . self::CUSTOMER_FILENAME);
         $this->userData = file_get_contents($assets . '/' . self::USER_FILENAME);
     }
 
 
-    public function getAllData()
+    public function getAllData(): array
     {
         $customerChannelData = $this->parseChannelData(self::CUSTOMER);
         $userChannelData = $this->parseChannelData(self::USER);
@@ -40,7 +40,7 @@ class Task
         return $this->reArrangeOutput($parsedResult);
     }
 
-    protected function calculateChannelData($parsedChannelData, $channel, $counter, $parsedResult)
+    protected function calculateChannelData(array $parsedChannelData, string $channel, int $counter, array $parsedResult): array
     {
 
         if (isset($parsedChannelData['silenceEnd'][$counter]) && isset($parsedChannelData['silenceStart'][$counter])) {
@@ -51,7 +51,7 @@ class Task
         return $parsedResult;
     }
 
-    protected function parseChannelData($channel = null)
+    protected function parseChannelData(?string $channel = null): array
     {
         if (!$channel || !in_array($channel, [self::CUSTOMER, self::USER])) {
             return [];
@@ -70,7 +70,7 @@ class Task
         return ['silenceEnd' => $silenceEnd, 'silenceStart' => $silenceStart, 'silenceDuration' => $silenceDuration];
     }
 
-    protected function calculateUserTalkBasedOnLastSilence($parsedResult, $customerChannelData, $userChannelData)
+    protected function calculateUserTalkBasedOnLastSilence(array $parsedResult, array $customerChannelData, array $userChannelData): array
     {
         $lastSilenceStart = max(end($customerChannelData['silenceStart']), end($userChannelData['silenceStart']));
 
@@ -80,7 +80,7 @@ class Task
         return $parsedResult;
     }
 
-    protected function calculateUserTalkBasedOnTotalTalk($parsedResult)
+    protected function calculateUserTalkBasedOnTotalTalk(array $parsedResult): array
     {
         $parsedResult['user_talk_percentage_based_on_talk'] =
             ($parsedResult[self::USER . '_talkDuration'] / ($parsedResult[self::USER . '_talkDuration'] + $parsedResult[self::CUSTOMER . '_talkDuration'])) * 100;
@@ -89,7 +89,7 @@ class Task
         return $parsedResult;
     }
 
-    protected function calculateClearSpeech($parsedResult)
+    protected function calculateClearSpeech(array $parsedResult): array
     {
 
         $customer = $parsedResult['customer'];
@@ -104,7 +104,7 @@ class Task
         return $parsedResult;
     }
 
-    private function accumulateClearSpeechTime($compare, $compareTo)
+    private function accumulateClearSpeechTime(array $compare, array $compareTo): array
     {
 
         $totalMonologueTime = 0;
@@ -122,7 +122,7 @@ class Task
                     &&
                     $startSpeechCompare > $prevEndSpeechCompareTo
                 )
-                    ||
+                ||
                 $startSpeechCompare > $endSpeechCompareTo
             ) {
                 $newMonologueTime = ($endSpeechCompare - $startSpeechCompare);
@@ -136,7 +136,7 @@ class Task
         return [$totalMonologueTime, $longestMonologueTime];
     }
 
-    private function reArrangeOutput($parsedResult)
+    private function reArrangeOutput(array $parsedResult): array
     {
 
         $customerTalkDuration = $parsedResult['customer_talkDuration'];
