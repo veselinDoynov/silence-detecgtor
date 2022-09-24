@@ -18,8 +18,8 @@ Everytime you restart the container you have to do all these steps because they 
 I assumed you do not use docker and that's why I did not get deeper creating Docker file with all setup or
 image with all installed.
 
-
-4. Tests are started in the container:
+4. Tests are in "tests" folder
+5. Tests are started in the container:
 `docker exec -it php-apache bash`
 cd /var/www/html
 ./vendor/bin/phpunit tests
