@@ -174,7 +174,9 @@ class TaskTest extends TestCase
     }
 
 }
-
+/**
+ * Helper class for testing protected methods
+ */
 class Helper extends Task
 {
     public function __construct($assets = self::ASSETS_PATH)
