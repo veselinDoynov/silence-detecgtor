@@ -1,0 +1,4 @@
+[silencedetect @ 0x7fa7edd0c160] silence_start: 2
+[silencedetect @ 0x7fa7edd0c160] silence_end: 5 | silence_duration: 3
+[silencedetect @ 0x7fa7edd0c160] silence_start: 8
+[silencedetect @ 0x7fa7edd0c160] silence_end: 9 | silence_duration: 1
