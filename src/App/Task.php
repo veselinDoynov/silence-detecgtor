@@ -115,7 +115,7 @@ class Task
 
             $startSpeechCompareTo = $compareTo[$i][0];
             $endSpeechCompareTo = $compareTo[$i][1];
-            $prevEndSpeechCompareTo = isset($compareTo[$i - 1][1]) ? $compareTo[$i - 1][1] : 0;
+            $prevEndSpeechCompareTo = isset($compareTo[$i - 1][1]) ? $compareTo[$i - 1][1] : -1;
             if (
                 (
                     $endSpeechCompare < $startSpeechCompareTo

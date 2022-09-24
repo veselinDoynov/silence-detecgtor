@@ -19,4 +19,7 @@ I assumed you do not use docker and that's why I did not get deeper creating Doc
 image with all installed.
 
 
-
+4. Tests are started in the container:
+`docker exec -it php-apache bash`
+cd /var/www/html
+./vendor/bin/phpunit tests
